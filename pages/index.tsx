@@ -5,6 +5,7 @@ import { Banner } from 'components/Banner'
 import { Movie } from 'typing'
 import { Row } from 'components/Row'
 import requests from 'utils/requests'
+import useAuth from 'hooks/useAuth'
 
 interface Props {
   netflixOriginals: Movie[]
@@ -27,6 +28,7 @@ const Home = ({
   romanceMovies,
   documentaries,
 }: Props) => {
+  const { loading} = useAuth()
   return (
     <div className='relative h-screen bg-gradient-to-b from-gray-900/10 to-[#010511] lg:h-[140vh]'>
       <Head>
