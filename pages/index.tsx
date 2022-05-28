@@ -1,11 +1,14 @@
-import type { NextPage } from 'next'
+import { useState} from 'react'
 import Head from 'next/head'
 import { Header } from 'components/Header'
 import { Banner } from 'components/Banner'
 import { Movie } from 'typing'
 import { Row } from 'components/Row'
+import { Modal } from 'components/Modal'
 import requests from 'utils/requests'
 import useAuth from 'hooks/useAuth'
+import { useRecoilValue } from 'recoil'
+import { modalState } from 'atoms/modalAtoms'
 
 interface Props {
   netflixOriginals: Movie[]
@@ -28,13 +31,24 @@ const Home = ({
   romanceMovies,
   documentaries,
 }: Props) => {
-  const { loading} = useAuth()
+  const showModal = useRecoilValue(modalState)
   return (
-    <div className='relative h-screen bg-gradient-to-b from-gray-900/10 to-[#010511] lg:h-[140vh]'>
+    <div className={`relative h-screen bg-gradient-to-b from-gray-900/10 to-[#010511] lg:h-[140vh]
+${showModal && '!h-screen overflow-hidden'}`}>
       <Head>
-        <title>Netflix | Home</title>
+        <title>Inicio | Netflix </title>
+        <meta property="og:url" content="https://tellsenales.com" />
+        <meta property="og:type" content="website" />
+        {/* <meta property="fb:app_id" content="your fb id" /> */}
+        <meta property="og:title" content='Tell Señales' />
+        <meta name="twitter:card" content="summary" />
+        <meta
+          property="og:description"
+          content="Fabricación de señales de seguridad, viales, industriales, obras, laborales, reflectivos, fotoluminiscentes, adhesivos"
+        />
+        <meta property="og:image" content='https://www.tellsenales.com/assets/images/og-image-tellsenales.webp' />
         <link rel='icon' href='/favicon.ico' />
-      </Head>
+      </Head>      
       <Header />
       <main className='relative mb-24 pl-4 lg:space-y-24 lg:pl-16 '>
         <Banner netflixOriginals={netflixOriginals} />
@@ -48,7 +62,7 @@ const Home = ({
           <Row title='Romance Movies' movie={romanceMovies} />
           <Row title='Documentaries' movie={documentaries} />
         </section>
-        {/* modal */}
+          {showModal && <Modal />}
       </main>
     </div>
   )
